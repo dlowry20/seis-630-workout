@@ -26,6 +26,8 @@ CREATE TABLE workout_lift(
                             CONSTRAINT pk_workoutLift PRIMARY KEY (workout_id, lift_number),
                             foreign key (exercise_name) REFERENCES exercise(exercise_name));
 
+ALTER TABLE workout_lift add foreign key (workout_id) REFERENCES workout(workout_id);
+
 CREATE Table exercise(
                          exercise_name varchar(30) NOT NULL PRIMARY KEY,
                          primary_body_part varchar(30),
@@ -35,13 +37,21 @@ CREATE Table exercise(
 
 
 CREATE TABLE lift_set(
-                        workout_id integer,
-                        lift_number integer,
-                        set_number integer,
-                        weight integer,
-                        reps integer,
-                        FOREIGN KEY (workout_id, lift_number) REFERENCES workout_lift(workout_id, lift_number),
-                        CONSTRAINT pk_liftSet PRIMARY KEY (workout_id, lift_number, set_number)
+    workout_id integer,
+    lift_number integer,
+    set_number integer,
+    weight integer,
+    reps integer,
+    FOREIGN KEY (workout_id, lift_number) REFERENCES workout_lift(workout_id, lift_number),
+    CONSTRAINT pk_liftSet PRIMARY KEY (workout_id, lift_number, set_number)
 );
 
 CREATE INDEX user_name_workout_idx ON workout (user_name);
+ALTER TABLE workout_lift add FOREIGN KEY (workout_id, lift_number) REFERENCES workout_lift(workout_id, lift_number)
+
+select * from workout, lift_set where workout.workout_id = lift_set.workout_id
+
+CREATE OR REPLACE VIEW workout_description(
+
+
+)
